@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>移动端滑动轮播图效果开发</title>
+	<style>
+		*{
+			margin:0px;
+			padding: 0px;
+		}
+		#hd_w{
+			width: 400px;
+			height: 300px;
+			position: relative;
+			border: 4px solid yellow;
+			overflow: hidden;
+		}
+		#hd_d{
+			width: 2800px;
+			height: 300px;
+			position: absolute;
+		}
+		#hd_d img{
+			width: 400px;
+			height: 300px;
+			float: left;
+		}
+	</style>
+	<script>
+		
+	</script>
+</head>
+<body>
+	<div id="hd_w">
+		<div id="hd_d" style="left: -400px;top: 0px;">
+			<img src="img/5.jpg" alt="">
+			<img src="img/1.jpg" alt="">
+			<img src="img/2.jpg" alt="">
+			<img src="img/3.jpg" alt="">
+			<img src="img/4.jpg" alt="">
+			<img src="img/5.jpg" alt="">
+			<img src="img/1.jpg" alt="">
+		</div>
+	</div>
+</body>
+<script>
+	var hd_w=document.getElementById('hd_w');
+	var hd_d=document.getElementById('hd_d');
+	var a=0
+	function run(){
+		a++;
+		if(a==6){
+			a=1;
+		}
+		var l=-400*a;
+		hd_d.style.left=l+'px';
+	}
+	var time=setInterval(run,3000);
+	hd_w.addEventListener('touchstart',start,false);
+	var dl;
+	var startX;
+	var moveX;
+	var newX
+	function start(e){
+		var e=e||window.event;
+		dl=parseInt(hd_d.style.left);
+		startX=e.changedTouches[0].clientX;
+		clearInterval(time);
+	}
+	hd_w.addEventListener('touchmove',move,false);
+	function move(e){
+		var e=e||window.event;
+		moveX=e.changedTouches[0].clientX;
+		newX=moveX-startX;
+		var l=newX+dl;
+		hd_d.style.left=l+'px';
+	}
+	hd_w.addEventListener('touchend',end,false);
+	function end(){
+		time =setInterval(run,3000);
+		var k;
+		if(newX<0){
+			a=a+1;
+			k=-400*a;
+			hd_d.style.left=k+'px';
+			newX=0;
+			if(a==6){
+				a=1;
+				k=-400*a;
+				hd_d.style.left=k+'px';
+			}
+		}
+		if(newX>0){
+			a=a-1;
+			k=-400*a;
+			hd_d.style.left=k+'px';
+			newX=0;
+			if(a==0){
+				a=5;
+				k=-400*a;
+				hd_d.style.left=k+'px';
+			}
+		}
+	}
+
+</script>
+</html>
